@@ -10,6 +10,7 @@ from time import sleep
 
 from data import TELEGRAM_CHAT_ID, TELEGRAM_TOKEN
 
+
 def send_telegram(message):
     bot_token = TELEGRAM_TOKEN
     chat_id = TELEGRAM_CHAT_ID
@@ -23,7 +24,7 @@ def send_telegram(message):
     return "Отправил сообщение в телеграм"
 
 def prodicts(name, min_price, max_price, description):
-    with open("offer.txt", "a", encoding="utf-8") as f:
+    with open("kwork_script_notificatior\\offer.txt", "a", encoding="utf-8") as f:
         f.write(f"{name}. Желаемая цена - {min_price}, Максимальная цена - {max_price}\n\n")
         f.write(f"Описание: {description}\n\n\n")
     return "Записал оффер."
@@ -110,13 +111,11 @@ while True:
             if third_html1 == html_description:
                 print("Ничего не изменилось.++++++++++++++++++++++++++++")
             else:
-                first_html1 = html_description
+                third_html1 = html_description
                 send_telegram(f"""{name}\nЖелаемая цена - {wants_price}
 \nМаксимальная цена - {max_price}\n
 {description}""")
                 print("НОВЫЙ ЗАКАЗ")
                 prodicts(name, wants_price, max_price, description)
 
-        prodicts(name, wants_price, max_price, description)
-
-        sleep(10)
+        sleep(30)
