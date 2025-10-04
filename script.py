@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 from bs4 import BeautifulSoup
 from requests import post
@@ -24,7 +25,7 @@ def send_telegram(message):
     return "Отправил сообщение в телеграм"
 
 def prodicts(name, min_price, max_price, description):
-    with open("kwork_script_notificatior\\offer.txt", "a", encoding="utf-8") as f:
+    with open("C:\\vscodepj\\kwork_script_notificatior\\offer.txt", "a", encoding="utf-8") as f:
         f.write(f"{name}. Желаемая цена - {min_price}, Максимальная цена - {max_price}\n\n")
         f.write(f"Описание: {description}\n\n\n")
     return "Записал оффер."
@@ -51,8 +52,18 @@ def prices_name_description():
 
     return wants_price, max_price, description, name
 
+def setup_browser():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=1920,1080")
+    
+    driver = webdriver.Chrome(options=chrome_options)
+    return driver
 
-browser = webdriver.Firefox()
+browser = setup_browser()
 
 link = ["https://kwork.ru/projects?a=1&fc=41&attr=211", 
         "https://kwork.ru/projects?a=1&fc=41&attr=3587", 
@@ -118,4 +129,4 @@ while True:
                 print("НОВЫЙ ЗАКАЗ")
                 prodicts(name, wants_price, max_price, description)
 
-        sleep(30)
+        sleep(5)
